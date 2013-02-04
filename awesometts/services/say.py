@@ -10,7 +10,7 @@ from subprocess import Popen, PIPE, STDOUT
 
 if isMac:
 
-	vlist = subprocess.check_output("say -v ? |sed 's/  .*//'", shell=True)
+	vlist = subprocess.check_output("say -v ? | awk '{print $1}'", shell=True)
 
 	voicelist = vlist.split('\n')
 	voicelist.pop()
