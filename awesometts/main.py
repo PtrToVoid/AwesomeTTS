@@ -225,7 +225,7 @@ def generate_audio_files(factIds, frm, service, srcField_name, dstField_name):
 			else:
 				note[dstField_name] = filename
 		else:
-			note[dstField_name] += ' [sound:'+ filename +']'
+			note[dstField_name] += '[sound:'+ filename +']'
 		note.flush()
 		
 	return returnval
