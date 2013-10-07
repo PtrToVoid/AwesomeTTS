@@ -224,6 +224,8 @@ def generate_audio_files(factIds, frm, service, srcField_name, dstField_name):
 				note[dstField_name] = '[sound:'+ filename +']'
 			else:
 				note[dstField_name] = filename
+		elif frm.radioReplaceWithNew.isChecked():
+			note[dstField_name] = "".join(re.split("\[sound:.*?\]", note[dstField_name])) + '[sound:'+ filename +']'
 		else:
 			note[dstField_name] += '[sound:'+ filename +']'
 		note.flush()
