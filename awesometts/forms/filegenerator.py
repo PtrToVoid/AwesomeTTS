@@ -26,7 +26,7 @@ class Ui_Dialog(object):
         self.gridLayout.addWidget(self.texttoTTS, 6, 2, 1, 2)
         self.label_2 = QtGui.QLabel(Dialog)
         self.label_2.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.label_2.setText(_("TextLabel"))
+        self.label_2.setText(_(""))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.gridLayout.addWidget(self.label_2, 4, 3, 1, 1)
         self.buttonBox = QtGui.QDialogButtonBox(Dialog)
