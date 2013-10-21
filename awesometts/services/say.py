@@ -37,7 +37,7 @@ if isMac:
 		filename_aiff = util.generateFileName(text, 'say', 'iso-8859-1', '.aiff')
 		filename_mp3 = util.generateFileName(text, 'say', 'iso-8859-1', '.mp3')
 		subprocess.Popen(['say', '-v', voice, '-o', filename_aiff, text], stdin=PIPE, stdout=PIPE, stderr=STDOUT).wait()
-		subprocess.Popen(['lame', '--quiet', filename_aiff, filename_mp3], stdin=PIPE, stdout=PIPE, stderr=STDOUT).wait()
+		subprocess.Popen(['lame', '--quiet', '--abr', '28', '-q0', filename_aiff, filename_mp3], stdin=PIPE, stdout=PIPE, stderr=STDOUT).wait()
 		subprocess.Popen(['rm', filename_aiff], stdin=PIPE, stdout=PIPE, stderr=STDOUT).wait()
 		return filename_mp3.decode('utf-8')
 
