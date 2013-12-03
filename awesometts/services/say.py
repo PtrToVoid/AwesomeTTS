@@ -7,6 +7,7 @@ from urllib import quote_plus
 import awesometts.config as config
 import awesometts.util as util
 from subprocess import Popen, PIPE, STDOUT
+import time, hashlib
 
 if isMac:
 
@@ -34,10 +35,18 @@ if isMac:
 
 	def recordOSXsayTTS(text, voice):
 		text = re.sub("\[sound:.*?\]", "", stripHTML(text.replace("\n", "")).encode('utf-8'))
-		filename_aiff = util.generateFileName(text, 'say', 'iso-8859-1', '.aiff')
-		filename_mp3 = util.generateFileName(text, 'say', 'iso-8859-1', '.mp3')
+		hasher = hashlib.md5()
+		hasher.update(text)
+		hasher.update(time.asctime()) #trying to avoid overwriting files with the same text in different decks
+		filename_aiff = util.generateFileName(hasher.hexdigest(), 'say', 'iso-8859-1', '.aiff')
+		filename_mp3 = util.generateFileName(hasher.hexdigest(), 'say', 'iso-8859-1', '.mp3')
 		subprocess.Popen(['say', '-v', voice, '-o', filename_aiff, text], stdin=PIPE, stdout=PIPE, stderr=STDOUT).wait()
-		subprocess.Popen(['lame', '--quiet', '--abr', '28', '-q0', filename_aiff, filename_mp3], stdin=PIPE, stdout=PIPE, stderr=STDOUT).wait()
+		encoder_args = ['lame'] #encoder executable
+		encoder_args.append('--quiet') #suppressing console output
+		encoder_args.extend(['--abr', '28', '-q0']) #quality related settings
+		encoder_args.extend(['--id3v2-only', '--tt', text]) #writing text to ID tag to be able to quick find proper file in a library
+		encoder_args.extend([filename_aiff, filename_mp3])
+		subprocess.Popen(encoder_args, stdin=PIPE, stdout=PIPE, stderr=STDOUT).wait()
 		subprocess.Popen(['rm', filename_aiff], stdin=PIPE, stdout=PIPE, stderr=STDOUT).wait()
 		return filename_mp3.decode('utf-8')
 
