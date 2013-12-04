@@ -158,7 +158,6 @@ def ATTS_Factedit_button(self):
 	if d.exec_() and form.texttoTTS.toPlainText() != '' and not form.texttoTTS.toPlainText().isspace():
 		serviceField = form.comboBoxService.currentIndex() # set default
 		srv = getService_byName(serv_list[serviceField])
-		TTS_service[srv]['filegenerator_run'](form)
 		filename = TTS_service[srv]['filegenerator_run'](form)
 		self.addMedia(filename)
 
